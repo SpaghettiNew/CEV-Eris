@@ -1,8 +1,8 @@
 
 
 /var/all_ui_styles = list(
-	"ErisStyle",
-	"LibertyStyle"
+	"LibertyStyle", // Поменял местами ЭрисСтайл и ЛибертиСтайл. Чтобы Либерти - выбирался первее
+	"ErisStyle"
 	)
 /proc/ui_style2icon(ui_style)
 	if(ui_style in all_ui_styles)

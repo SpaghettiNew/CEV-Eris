@@ -124,20 +124,23 @@
 		. += "<a href='?src=\ref[src];job_info=[rank]'>\[?\]</a>"
 		var/bad_message = ""
 		if(job.total_positions == 0 && job.spawn_positions == 0)
-			bad_message = "<b> \[UNAVAILABLE]</b>"
+			bad_message = ""
 		else if(jobban_isbanned(user, rank))
-			bad_message = "<b> \[BANNED]</b>"
+			bad_message = "<b>Отлучен</b>"
 		else if(IsGuestKey(user.client.ckey) && SSjob.job_to_playtime_requirement[job.title])
-			bad_message = "<b> \[ACCOUNT REQUIRED </b>"
+			bad_message = "<b>ACCOUNT REQUIRED </b>"
 		else if(!SSjob.ckey_to_job_to_can_play[user.client.ckey][job.title])
 			bad_message = "\[PLAYTIME REQUIRED : [SSjob.job_to_playtime_requirement[job.title]] Minutes as [job.department]]"
 		/*else if(!job.player_old_enough(user.client))
 			var/available_in_days = job.available_in_days(user.client)
 			bad_message = "\[IN [(available_in_days)] DAYS]"*/
 		else if(job.minimum_character_age && user.client && (user.client.prefs.age < job.minimum_character_age))
-			bad_message = "\[MINIMUM CHARACTER AGE: [job.minimum_character_age]]"
+			// bad_message = "\[MINIMUM CHARACTER AGE: [job.minimum_character_age]]"
+			bad_message = "Слишком молод"
+		else if(user.client && job.is_setup_restricted(user.client.prefs.setup_options) && job.setup_restricted)
+			bad_message = "Ты не принадлежишь кресту"
 		else if(user.client && job.is_setup_restricted(user.client.prefs.setup_options))
-			bad_message = "\[SETUP RESTRICTED]"
+			bad_message = "Недостоин"
 
 		if((ASSISTANT_TITLE in pref.job_low) && (rank != ASSISTANT_TITLE))
 			. += "<a href='?src=\ref[src];set_skills=[rank]'><font color=grey>[rank]</font></a></td><td></td></tr>"

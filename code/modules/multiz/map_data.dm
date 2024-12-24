@@ -102,7 +102,7 @@ GLOBAL_DATUM_INIT(maps_data, /datum/maps_data, new)
 						/datum/job/chaplain, /datum/job/acolyte, /datum/job/janitor, /datum/job/hydro,
 						/datum/job/scientist, /datum/job/roboticist, /datum/job/psychiatrist,
 						/datum/job/ai, /datum/job/cyborg,
-						/datum/job/assistant
+						// /datum/job/assistant
 
 						)
 	var/pulsar_z
