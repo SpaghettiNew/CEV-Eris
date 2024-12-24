@@ -123,10 +123,14 @@
 		lastJob = job
 		. += "<a href='?src=\ref[src];job_info=[rank]'>\[?\]</a>"
 		var/bad_message = ""
+		var/datum/category_item/setup_option/core_implant/I = user.client.prefs.get_option("Core implant")
 		if(job.total_positions == 0 && job.spawn_positions == 0)
-			bad_message = ""
+			bad_message = "<b>Отсутствует сегодня</b>"
 		else if(jobban_isbanned(user, rank))
-			bad_message = "<b>Отлучен</b>"
+			if(user.client.prefs.gender == FEMALE)
+				bad_message = "<b>Отлучена</b>"
+			else
+				bad_message = "<b>Отлучен</b>"
 		else if(IsGuestKey(user.client.ckey) && SSjob.job_to_playtime_requirement[job.title])
 			bad_message = "<b>ACCOUNT REQUIRED </b>"
 		else if(!SSjob.ckey_to_job_to_can_play[user.client.ckey][job.title])
@@ -136,11 +140,19 @@
 			bad_message = "\[IN [(available_in_days)] DAYS]"*/
 		else if(job.minimum_character_age && user.client && (user.client.prefs.age < job.minimum_character_age))
 			// bad_message = "\[MINIMUM CHARACTER AGE: [job.minimum_character_age]]"
-			bad_message = "Слишком молод"
+			if(user.client.prefs.gender == FEMALE)
+				bad_message = "Слишком молода"
+			else
+				bad_message = "Слишком молод"
 		else if(user.client && job.is_setup_restricted(user.client.prefs.setup_options) && job.setup_restricted)
-			bad_message = "Ты не принадлежишь кресту"
+			bad_message = "Не крещеный"
+		else if(user.client && job.is_setup_restricted(user.client.prefs.setup_options) && I.implant_type == /obj/item/implant/core_implant/cruciform)
+			bad_message = "Ты принадлежишь кресту"
 		else if(user.client && job.is_setup_restricted(user.client.prefs.setup_options))
-			bad_message = "Недостоин"
+			if(user.client.prefs.gender == FEMALE)
+				bad_message = "Недостойна"
+			else 
+				bad_message = "Недостоин"
 
 		if((ASSISTANT_TITLE in pref.job_low) && (rank != ASSISTANT_TITLE))
 			. += "<a href='?src=\ref[src];set_skills=[rank]'><font color=grey>[rank]</font></a></td><td></td></tr>"
